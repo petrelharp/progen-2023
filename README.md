@@ -2,6 +2,11 @@
 
 General layout: landscape A1, divided into six boxes; title in top-middle
 
+Target audience: people who might want to do things with tree sequences in python
+
+Proposed collaboration structure:
+each box is a jupyter notebook that I put in latex at the last moment
+
 # Title box
 
 - tskit logo
@@ -10,6 +15,7 @@ General layout: landscape A1, divided into six boxes; title in top-middle
 - emphasize that (a) it does stuff fast and quick, and (b) it gives us a time dimension
     * tagline: "launching your genomes into the time dimension"?
 - how to contribute
+- bigger ecosystem: what else uses tskit?
 
 # Visualization
 
