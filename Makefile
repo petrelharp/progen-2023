@@ -2,7 +2,7 @@
 
 all: probgen-2023-poster.pdf
 
-probgen-2022-poster.pdf : refs.bib
+probgen-2023-poster.pdf : refs.bib tskit_logo.pdf
 
 clean: 
 	-rm *.aux *.log *.bbl *.blg
@@ -20,7 +20,11 @@ clean:
 	convert -density 300 $< -flatten $@
 
 %.pdf : %.svg
-	inkscape $< --export-pdf=$@
+	inkscape $< --export-filename=$@
+
+%.pdf : %.eps
+	# inkscape $< --export-filename=$@
+	epspdf $<
 
 %.pdf : %.ink.svg
-	inkscape $< --export-pdf=$@
+	inkscape $< --export-filename=$@
