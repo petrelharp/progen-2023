@@ -1,0 +1,334 @@
+\documentclass[fontscale=0.38,a0paper]{baposter}
+
+\tracingstats=2
+
+\usepackage{times}
+\usepackage{calc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage[authoryear,round]{natbib}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usepackage{colortbl}
+
+\usepackage{multicol}
+
+%\usepackage{pgfbaselayers}
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+
+
+%\usepackage{tikz}
+%\usetikzlibrary{arrows,backgrounds,patterns,matrix,shapes,fit,calc,shadows,plotmarks,decorations.pathmorphing,positioning,trees}
+
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{helvet}
+\usepackage{bookman}
+\usepackage{palatino}
+
+% My stuff
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\st}{\,\colon\,}
+\newcommand{\bone}{\mathbf{1}}
+\newcommand{\var}{\mathop{\mbox{Var}}}
+\newcommand{\cov}{\mathop{\mbox{cov}}}
+\newcommand{\tskit}{{\texttt{tskit}}}
+\newcommand{\branch}{\mbox{Branch}} % branch stat
+\newcommand{\branchp}{\mbox{Branch}_+} % polarised
+\newcommand{\site}{\mbox{Site}} % site stat
+\newcommand{\sitep}{\mbox{Site}_+} % polarised
+\newcommand{\node}{\mbox{Node}} % node stat
+\newcommand{\nodep}{\mbox{Node}_+} % polarised
+\newcommand{\given}{\;\vert\;}
+
+% end my stuff
+
+\selectcolormodel{cmyk}
+
+% \graphicspath{{images/}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Some symbols used in the text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\sub}[2]{\ensuremath{#1_{\textrm{#2}}}}
+%\newcommand{\gen}[2]{\ensuremath{\textrm{#1}_{\textrm{#2}}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Multicol Settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\columnsep}{1em}
+\setlength{\columnseprule}{0mm} % no vertical line
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Save space in lists. Use this after the opening of the list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\compresslist}{
+\setlength{\itemsep}{1pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Other Macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \renewcommand{\labelenumi}{\alph{enumi})}
+% \renewcommand{\theenumi}{\alph{enumi})}
+\newcommand{\postercaption}[1]{\begin{minipage}{\linewidth}\center\smaller
+  {#1}\end{minipage}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Begin of Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Here starts the poster
+%%%---------------------------------------------------------------------------
+%%% Format it to your taste with the options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define some colors
+\definecolor{silver}{cmyk}{0,0,0,0.3}
+\definecolor{black}{cmyk}{0,0,0.0,1.0}
+\definecolor{white}{cmyk}{0,0,0.0,0.0}
+\definecolor{darkSilver}{cmyk}{0,0,0,0.1}
+
+\definecolor{darkYellow}{cmyk}{0,0,1.0,0.5}
+\definecolor{yellow}{cmyk}{0,0,0.9,0.0}
+\definecolor{reddishyellow}{cmyk}{0,0.22,1.0,0.0}
+\definecolor{lightyellow}{cmyk}{0,0,0.3,0.0}
+\definecolor{lighteryellow}{cmyk}{0,0,0.1,0.0}
+\definecolor{lightestyellow}{cmyk}{0,0,0.05,0.0}
+
+\definecolor{DavisBlue}{cmyk}{1,0.56,0,0.34}
+%    C = 100  M = 56  Y = 0 K = 34
+
+
+\definecolor{HohenheimBlue}{cmyk}{1,0.5,0,0.45}
+\definecolor{HohenheimLightLightBlue}{RGB}{243,250,255}
+\definecolor{HohenheimLightBlue}{RGB}{215,221,235}
+\definecolor{HohenheimDarkBlue}{RGB}{52,104,152}
+\definecolor{darkCyan}{cmyk}{1,1,0,0.5}
+\definecolor{cyan}{cmyk}{1,0,0,0.0}
+\definecolor{lightcyan}{cmyk}{0.3,0,0,0.0}
+\definecolor{lightercyan}{cmyk}{0.1,0,0,0.0}
+\definecolor{lightestcyan}{cmyk}{0.05,0,0,0.0}
+
+
+
+\typeout{Poster Starts}
+%Define custom background
+\background{
+  \begin{tikzpicture}[remember picture,overlay]%
+    \draw (current page.north west)+(-2em,2em) node[anchor=north west] {\includegraphics[height=\textheight]{silhouettes_background}};
+  \end{tikzpicture}%
+}
+
+\newlength{\leftimgwidth}
+\begin{poster}%
+  % Poster Options
+  {
+  % Columns and Column spacing
+  columns=3,
+  colspacing=1.5em,
+  % Background
+  % background=user,
+  background=shade-tb,
+  % Poster header options
+  eyecatcher=yes,
+  posterheaderheight=0.15\textheight,
+  % Format of textbox header
+  headerborder=open,
+  % headershape=small-rounded,
+  headershape=roundedright,
+  headershade=shade-tb,
+  % headershade=plain,
+  headerfont=\Large\textsf, %Sans Serif
+  % Format of textbox
+  boxborder=small-rounded,
+  % boxborder=roundedleft,    
+  boxshade=plain,
+  linewidth=0.5pt,
+  % Color style
+  % bgColorOne=lightestcyan,
+  % bgColorTwo=lightcyan,
+  bgColorOne=white,
+  bgColorTwo=white,
+  % borderColor=cyan,
+  borderColor=black,
+  headerColorOne=DavisBlue,
+  % headerColorOne=cyan,
+  headerColorTwo=black,
+  % headerFontColor=black,
+  headerFontColor=white,
+  % boxColorOne=lightercyan,
+  boxColorOne=HohenheimLightLightBlue,
+  boxColorTwo=white,
+  % Show grid to help with alignment
+  grid=no
+  % grid=yes
+  }
+  % Eye Catcher
+  {
+  \makebox[15em][r]{%
+    \begin{minipage}{15em}
+       \hfill
+       \includegraphics[width=15em]{tskit_logo} \\
+    \end{minipage}
+    }
+  }
+  % Title
+  {\sf %Sans Serif
+  %\bf% %bold  
+  \vspace{0.5em}
+     \textbf{\textcolor{DavisBlue}{\tskit{}: working with tree sequences}}\vspace{0.5em}}
+  % Authors
+  {\sf %Sans Serif
+    Ben Jefferey${}^\ddagger$,
+    Jerome Kelleher$^{\ddagger}$,
+    Nathaniel Pope${}^\dagger$,
+    Peter Ralph${}^\dagger$,
+    \\  \vspace{-1.0mm}
+    Georgia Tsambos,${}^{\dagger\S}$,
+    Yan Wong$^{\ddagger}$,
+    and the rest of the tskit-dev group.
+    \\  \vspace{-1.0mm}
+    Code: \url{github.com/petrelharp/probgen-2023}. 
+    \\  \vspace{-1.0mm}
+    {\small \textit{$\dagger$ University of Oregon} } %\\ \vspace{-0.5em}
+    {\small \textit{$\ddagger$ University of Oxford} } %\\ \vspace{-0.5em}
+    {\small \textit{$\S$ University of Washington}} \\
+  }
+  % Project logo
+  {
+    \makebox[15em][r]{%
+      \begin{minipage}{12em}
+        \hfill
+          \includegraphics[width=10em]{UOSignature-STK-BLK} \\
+      \end{minipage}
+    }
+  }
+
+  % Width of left inset image
+%  \setlength{\leftimgwidth}{0.78em+0.0em}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Now define the boxes that make up the poster
+%%%---------------------------------------------------------------------------
+%%% Each box has a name and can be placed absolutely or relatively.
+%%% The only inconvenience is that you can only specify a relative position 
+%%% towards an already declared box. So if you have a box attached to the 
+%%% bottom, one to the top and a third one which should be in between, you 
+%%% have to specify the top and bottom boxes before you specify the middle 
+%%% box.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Visuzalization}{name=viz,column=0,row=0,span=1}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+pretty and useful things
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Exploring trees}{name=exploring,column=0,below=viz,span=1}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+e.g., "find the trees with at least five nodes above time 100" or "compute the average number of siblings of <something something>"
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Input/output and metadata}{name=inout,column=0,below=exploring,span=1}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+top-level metadata for all your recording needs
+
+VCF from subsets/masks
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Overview}{name=overview,column=1,row=0,span=1}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- very brief intro/description statement
+- what's on the website
+- emphasize that (a) it does stuff fast and quick, and (b) it gives us a time dimension
+    * tagline: "launching your genomes into the time dimension"?
+- how to contribute
+- bigger ecosystem: what else uses tskit?
+
+
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Statistics}{name=stats,column=2,row=0,span=1}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+pi-along-the-genome, IBD blocks; cross-coalescent rates?
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Operations on tree sequences}{name=operations,column=2,below=stats,span=1}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+union and parallelization
+
+decapitation, split edges, etc?
+
+interaction with relate?
+
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{References}{name=refs,column=2,above=bottom}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % \scriptsize
+  \renewcommand{\section}[2]{\vskip 0.0em}
+  \bibliographystyle{abbrvnat}
+  \setlength{\bibsep}{0.0pt}
+
+    Simulations with SLiM (https://messerlab.org/SLiM)
+    and msprime
+    and tskit (https://tskit.dev)
+
+  \bibliography{refs}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{poster}%
+\end{document}
