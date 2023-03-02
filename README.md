@@ -21,25 +21,28 @@ each box is a jupyter notebook that I put in latex at the last moment
 
 pretty and useful things
 
-# Exploring/iterating over trees
-
-e.g., "find the trees with at least five nodes above time 100" or "compute the average number of siblings of <something something>"
-
-# input/output and metadata
+# Metadata
 
 top-level metadata for all your recording needs
 
-VCF from subsets/masks
+# Interfaces and Interoperability
+
+e.g., "find the trees with at least five nodes above time 100" or "compute the average number of siblings of <something something>"
+
+* C, Rust, Python interfaces (also R via reticulate?)
+* In-browser e.g. via pyodide/Jupyterlite - ideal for workshops/teaching!
+* SLiM fwdpy11, msprime, tsinfer, ?relate
+* Is an ARG library
+* VCF output
 
 # statistics, descriptors
 
 pi-along-the-genome, IBD blocks; cross-coalescent rates?
 
-# operations on tree sequences and interoperability
+# Notable new features
 
-union and parallelization
-
-decapitation, split edges, etc?
-
-interaction with relate?
-
+* Efficient array access (e.g. for numba)
+* Tree metrics (balance/imbalance)
+* Reference sequence and alignments
+* Structural ops (e.g. decapitate)
+* Parallelization?
