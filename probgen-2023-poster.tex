@@ -20,6 +20,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{ae}
 
+\usepackage{minted}
+
 \graphicspath{{images/}}
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,7 +121,7 @@
  bgColorOne=tskitMint,
  headerheight=0.12\textheight}
  % Eye Catcher
- { \includegraphics[height=0.12\textheight]{images/tskit_logo}
+ { \includegraphics[height=0.12\textheight]{tskit_logo}
  }
  % Title
  {\Huge \tskit{}: \sc working with tree sequences}
@@ -143,9 +145,9 @@
  % University logo
  {
   \begin{tabular}{r}
-    \includegraphics[height=0.12\textheight]{images/oxford-logo.jpeg}
+    \includegraphics[height=0.12\textheight]{oxford-logo.jpeg}
       \hspace{1em}
-    \includegraphics[height=0.12\textheight]{images/UOSignature-STK-BLK}\\
+    \includegraphics[height=0.12\textheight]{UOSignature-STK-BLK}\\
   \end{tabular}
  }
 
@@ -161,28 +163,28 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Exploring trees}{name=exploring,column=0,span=1}{
+\begin{posterbox}[name=exploring,column=0,span=1]{Exploring trees}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 e.g., "find the trees with at least five nodes above time 100" or "compute the average number of siblings of <something something>"
 
-}
+\end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Input/output and metadata}{name=inout,column=0,below=exploring,span=1}{
+\begin{posterbox}[name=inout,column=0,below=exploring,span=1]{Input/output and metadata}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 top-level metadata for all your recording needs
 
 VCF from subsets/masks
 
-}
+\end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Overview}{name=overview,column=1,row=0,span=2}{
+\begin{posterbox}[name=overview,column=1,row=0,span=2]{Overview}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - very brief intro/description statement
@@ -192,35 +194,87 @@ VCF from subsets/masks
 - how to contribute
 - bigger ecosystem: what else uses tskit?
 
-\includegraphics[width=\textwidth]{images/workflow}
+\includegraphics[width=\textwidth]{workflow}
 
 
-}
+\end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Visuzalization}{name=viz,column=1,row=0,span=2,below=overview}{
+\begin{posterbox}[name=viz,column=1,row=0,span=2,below=overview]{Visuzalization}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-pretty and useful things
+SVG-based viz allows flexible styling of local trees.
 
-}
+Comprehensive examples at \url{https://tskit.dev/tutorials/viz.html}
+
+
+\end{posterbox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{posterbox}[name=vizlist,below=viz,column=1,row=0,span=1]{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize} \compresslist
+    \item set labels for nodes, mutations, and tickmarks, e.g. using metadata
+    \item color elements, e.g. to highlight branches that change between trees
+    \item transform elements e.g. rotate labels, alter node symbols, even 3D effects!
+    \item timescale titles show time units by default (can also be linear, log, or rank)
+    \item interaction possible via mouseover events and javascript animation
+    \item Text-based plots also available for simple debugging
+\end{itemize}
+
+\end{posterbox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{posterbox}[name=vizex,below=viz,column=2,row=0,span=1]{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{minted}{python}
+    svg = simp_ts.draw_svg(
+        size=(800, 400),
+        canvas_size=(850, 405),
+        style=style + "".join(node_styles),
+        y_axis=True,
+        time_scale="log_time",
+        symbol_size=4.5,
+        y_label = "Date",
+        x_label = "SARS-CoV-2 genome position",
+        y_ticks = y_ticks,
+        mutation_labels={},
+        y_gridlines=True,
+        node_labels=node_labels,
+        root_svg_attributes={"id": "ns_rec"},
+    )
+
+    with open("images/Covid_recombination.svg", "wt") as file:
+        file.write(svg)
+    svg
+\end{minted}
+
+\includegraphics[width=\textwidth]{Covid_recombination}
+
+\end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Statistics}{name=stats,column=3,row=0,span=1}{
+\begin{posterbox}[name=stats,column=3,row=0,span=1]{Statistics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 pi-along-the-genome, IBD blocks; cross-coalescent rates?
 
-}
+\end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Operations on tree sequences}{name=operations,column=3,below=stats,span=1}{
+\begin{posterbox}[name=operations,column=3,below=stats,span=1]{Operations on tree sequences}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 union and parallelization
@@ -230,13 +284,13 @@ decapitation, split edges, etc?
 interaction with relate?
 
 
-}
+\end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{References}{name=refs,column=3,above=bottom}{
+\begin{posterbox}[name=refs,column=3,above=bottom]{References}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % \scriptsize
   \renewcommand{\section}[2]{\vskip 0.0em}
@@ -248,7 +302,7 @@ interaction with relate?
     and tskit (https://tskit.dev)
 
   \bibliography{refs}
-}
+\end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

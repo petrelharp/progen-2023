@@ -2,16 +2,16 @@
 
 all: probgen-2023-poster.pdf
 
-probgen-2023-poster.pdf : refs.bib tskit_logo.pdf workflow.pdf
+probgen-2023-poster.pdf : refs.bib images/tskit_logo.pdf images/workflow.pdf images/Covid_recombination.pdf
 
 clean: 
 	-rm *.aux *.log *.bbl *.blg
 
 %.pdf : %.tex %.bbl
-	while ( pdflatex $<;  grep -q "Rerun to get" $*.log ) do true ; done
+	while ( pdflatex -shell-escape $<;  grep -q "Rerun to get" $*.log ) do true ; done
 
 %.aux : %.tex
-	-pdflatex $<
+	-pdflatex -shell-escape $<
 
 %.bbl : %.aux
 	bibtex $<
