@@ -68,7 +68,16 @@
   {#1}\end{minipage}}
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Begin of Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
 % Define some colors
+\definecolor{tskitMint}{RGB}{93,199,148}  % 5dc794
+\definecolor{tskitBlue}{RGB}{31,78,102}  % 1f4e66
+
 \definecolor{silver}{cmyk}{0,0,0,0.3}
 \definecolor{black}{cmyk}{0,0,0.0,1.0}
 \definecolor{white}{cmyk}{0,0,0.0,0.0}
@@ -81,26 +90,12 @@
 \definecolor{lighteryellow}{cmyk}{0,0,0.1,0.0}
 \definecolor{lightestyellow}{cmyk}{0,0,0.05,0.0}
 
-\definecolor{DavisBlue}{cmyk}{1,0.56,0,0.34}
-%    C = 100  M = 56  Y = 0 K = 34
-
-
-\definecolor{HohenheimBlue}{cmyk}{1,0.5,0,0.45}
-\definecolor{HohenheimLightLightBlue}{RGB}{243,250,255}
-\definecolor{HohenheimLightBlue}{RGB}{215,221,235}
-\definecolor{HohenheimDarkBlue}{RGB}{52,104,152}
 \definecolor{darkCyan}{cmyk}{1,1,0,0.5}
 \definecolor{cyan}{cmyk}{1,0,0,0.0}
 \definecolor{lightcyan}{cmyk}{0.3,0,0,0.0}
 \definecolor{lightercyan}{cmyk}{0.1,0,0,0.0}
 \definecolor{lightestcyan}{cmyk}{0.05,0,0,0.0}
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Begin of Document
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Here starts the poster
 %%---------------------------------------------------------------------------
@@ -112,8 +107,8 @@
  % Column spacing
  colspacing=0.7em,
  % Color style
- headerColorOne=cyan!20!white!90!black,
- borderColor=cyan!30!white!90!black,
+ headerColorOne=tskitMint,
+ borderColor=tskitBlue,
  % Format of textbox
  textborder=faded,
  % Format of text header
@@ -121,13 +116,13 @@
  headershape=roundedright,
  headershade=plain,
  background=none,
- bgColorOne=cyan!10!white,
+ bgColorOne=tskitMint,
  headerheight=0.12\textheight}
  % Eye Catcher
- { \includegraphics[height=0.12\textheight]{tskit_logo}
+ { \includegraphics[height=0.12\textheight]{images/tskit_logo}
  }
  % Title
- {\sc\Huge \tskit{}: working with tree sequences}
+ {\Huge \tskit{}: \sc working with tree sequences}
  % Authors
   {\sf %Sans Serif
     Ben Jeffery${}^\ddagger$,
@@ -148,8 +143,9 @@
  % University logo
  {
   \begin{tabular}{r}
-    \includegraphics[height=0.12\textheight]{oxford-logo.jpeg}
-    \includegraphics[height=0.12\textheight]{UOSignature-STK-BLK}\\
+    \includegraphics[height=0.12\textheight]{images/oxford-logo.jpeg}
+      \hspace{1em}
+    \includegraphics[height=0.12\textheight]{images/UOSignature-STK-BLK}\\
   \end{tabular}
  }
 
@@ -196,6 +192,7 @@ VCF from subsets/masks
 - how to contribute
 - bigger ecosystem: what else uses tskit?
 
+\includegraphics[width=\textwidth]{images/workflow}
 
 
 }

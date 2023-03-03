@@ -2,7 +2,7 @@
 
 all: probgen-2023-poster.pdf
 
-probgen-2023-poster.pdf : refs.bib tskit_logo.pdf
+probgen-2023-poster.pdf : refs.bib tskit_logo.pdf workflow.pdf
 
 clean: 
 	-rm *.aux *.log *.bbl *.blg
