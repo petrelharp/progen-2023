@@ -12,7 +12,7 @@
 \usepackage{relsize}
 \usepackage{multirow}
 \usepackage{caption}
-\usepackage[authoryear,round]{natbib}
+% \usepackage[authoryear,round]{natbib}
 \usepackage[hidelinks]{hyperref}
 \usepackage{booktabs}
 
@@ -22,6 +22,7 @@
 \usepackage{ae}
 
 \usepackage{minted}
+\setminted{fontsize=\scriptsize}
 
 \graphicspath{{images/}}
 
@@ -164,12 +165,71 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{posterbox}[name=inout,column=0,span=1]{Metadata}
+\begin{posterbox}[name=inout,column=0,span=1]{Integrated metadata}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-top-level metadata for all your recording needs
+    \tskit now has integrated metadata.
+    For instance,
+    the complete ARG for 1.26 million SARS-Cov-2 genomes: fits in 57MB!
+    Loads in < 1s!
 
-VCF from subsets/masks
+\begin{minted}{bash}
+ls -lh SARS-Cov-2-ARG.ts.tsz
+\end{minted}
+{\scriptsize \verb|-rw-rw-r-- 1 jk jk 57M Mar  2 13:32 SARS-Cov-2-ARG.ts.tsz|}
+\begin{minted}{python}
+ts = tszip.decompress("SARS-Cov-2-ARG.ts.tsz")
+\end{minted}
+{\scriptsize
+\begin{verbatim}
+CPU times: user 775 ms, sys: 533 ms, total: 1.31 s
+Wall time: 842 ms
+\end{verbatim}
+}
+\includegraphics[width=0.5\textwidth]{sc2_ts.png}
+
+\paragraph{Integrated data model} linking nodes, edges, sites and mutations and external metadata and debug information:
+
+\begin{multicols}{2}
+\begin{minted}{python}
+ts.tables.sites[:5]
+\end{minted}
+\includegraphics[width=0.5\textwidth]{sc2_sites}
+
+\begin{minted}{python}
+ts.tables.mutations[ts.mutations_site == 0]
+\end{minted}
+\includegraphics[width=0.5\textwidth]{sc2_muts}
+\end{multicols}
+
+\begin{minted}{python}
+dataclasses.asdict(ts.node(1026732))
+\end{minted}
+\tiny
+\begin{minted}{python}
+{'id': 1026732,
+ 'flags': 1,
+ 'time': 60.0,
+ 'population': -1,
+ 'individual': -1,
+ 'metadata': {'Imputed_lineage': 'B.1.1.7',
+  'Nextclade_pango': 'B.1.1.7',
+  'clade': '20I (Alpha, V1)',
+  'country': 'Germany',
+  'date': '2021-05-01',
+  'date_submitted': '2021-05-17',
+  'gisaid_epi_isl': 'EPI_ISL_2122637',
+  'host': 'Human',
+  'sc2ts_qc': {'num_masked_sites': 150,
+   'original_base_composition': {'-': 103,
+    'A': 8902,
+    'C': 5473,
+    'G': 5847,
+    'T': 9578},
+   'original_md5': '8ca8e5ad1f098aa806126f2439810d7a'},
+  'strain': 'Germany/un-RKI-I-137988/2021',
+  'totalSubstitutions': 36.0}}
+\end{minted}
 
 \end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -191,13 +251,16 @@ VCF from subsets/masks
     \item Interoperable with other packages (VCF output for sequence data, newick/nexus output e.g. to Dendropy, numpy arrays e.g. to scikit-allel)
 \end{itemize}
 
-\begin{minted}{python}
-ts = msprime.sim_ancestry(2, sequence_length=600, recombination_rate=1e-3, random_seed=7)
-ts = msprime.sim_mutations(ts, rate=2e-3, random_seed=9)
-
-css = ".tree .plotbox {transform: skewY(0.7rad) translateY(-50px)}"
-ts.draw_svg(size=(700, 200), x_scale="treewise", style=css, mutation_labels={})
-\end{minted}
+% \begin{minted}{python}
+% ts = msprime.sim_ancestry(2, sequence_length=600,
+%         recombination_rate=1e-3, random_seed=7)
+% ts = msprime.sim_mutations(ts, rate=2e-3, random_seed=9)
+% 
+% css = (".tree .plotbox {transform: skewY(0.7rad) "
+%         "translateY(-50px)}")
+% ts.draw_svg(size=(700, 200), x_scale="treewise",
+%         style=css, mutation_labels={})
+% \end{minted}
 
     \includegraphics[width=0.5\textwidth]{JupyterLite}
 
@@ -276,9 +339,6 @@ Comprehensive examples at \url{https://tskit.dev/tutorials/viz.html}
         node_labels=node_labels,
         root_svg_attributes={"id": "ns_rec"},
     )
-
-    with open("images/Covid_recombination.svg", "wt") as file:
-        file.write(svg)
     svg
 \end{minted}
 
@@ -293,7 +353,34 @@ Comprehensive examples at \url{https://tskit.dev/tutorials/viz.html}
 \begin{posterbox}[name=stats,column=3,row=0,span=1]{Statistics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-pi-along-the-genome, IBD blocks; cross-coalescent rates?
+\tskit{} lets you perform efficient calculations of statistics along the genome, often many times quicker than other software! You may be interested in calculating...
+
+\begin{itemize} \compresslist
+    \item statistics derived from the allele frequency spectrum like nucleotide diversity, Tajima's D, f2...
+    \item IBD-based quantities
+    \item tree-based statistics like genealogical nearest neighbours and tree balance metrics...
+\end{itemize}
+
+Let's look at \tskit{}'s new tree balance statistics as an example. A balanced
+    (binary) tree is perfectly symmetric in some way: each node has an equally
+    sized subtree descending from its left- and right- branches, where 'size'
+    is determined by some metric involving the tree's nodes and edges. \tskit
+    now contains several different metrics to calculate how unbalanced each
+    tree is:
+
+\begin{minted}{python}
+imb = pd.DataFrame({
+    "genomic position" : [t.interval[0] for t in ts.trees()],
+    "b1" : [t.b1_index() for t in ts.trees()],
+    "b2" : [t.b2_index() for t in ts.trees()],
+    "colless" : [t.colless_index() for t in ts.trees()],
+    "sackin" : [t.sackin_index() for t in ts.trees()]
+}).set_index("genomic position")
+
+imb = ((imb - imb.mean()) / imb.std())
+imb.plot(figsize=(16, 4), alpha=0.7)
+\end{minted}
+\includegraphics[width=\textwidth]{tree_balance}
 
 \end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -303,12 +390,41 @@ pi-along-the-genome, IBD blocks; cross-coalescent rates?
 \begin{posterbox}[name=operations,column=3,below=stats,span=1]{Notable new features}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-union and parallelization
+\tskit{}'s contributors are diverse and prolific! We are actively working on new features, bug fixes, and improvements to the usability of existing features. Here's a shortlist of some recent additions:
 
-decapitation, split edges, etc?
+\paragraph{Reference sequences}
+By default, the sites in a tree sequence only define the nucleotide types at
+    the genomic positions where polymorphism is observed. The nucleotides at
+    remaining positions can now be filled using the
+    `TreeSequence.reference\_sequence` , and individual sample alignments can
+    be obtained with the new `TreeSequence.alignments()` iterator.
 
-interaction with relate?
+\paragraph{Structural operations}
+We've expanded the set of utility functions for large edits on tree sequences.
+    For instance, the `TreeSequence.decapitate` method removes all parts of a
+    tree sequence that are older than some user-specified time.
 
+\paragraph{Efficient array access }
+The relationships between nodes in each tree can now be extracted as `numpy`
+    arrays. When used in conjunction with `numba`, it is possible to perform
+    Python-based calculations on the trees that run as speedily as
+    machine-level code. Consider these calculations of total branch length on
+    trees of different sizes:
+
+\begin{minted}{python}
+@numba.njit
+def _total_branch_length(preorder, parent, node_time):
+     tbl = 0
+     for u in preorder:
+          if parent[u] != -1:
+               tbl += node_time[parent[u]] - node_time[u]
+     return tbl
+
+def get_total_branch_length(tree):
+     return _total_branch_length( tree.preorder(), tree.parent_array,
+                tree.tree_sequence.nodes_time)
+\end{minted}
+\includegraphics[width=0.5\textwidth]{numba_runtime}
 
 \end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -316,7 +432,7 @@ interaction with relate?
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{posterbox}[name=refs,column=3,above=bottom]{Contributors}
+\begin{posterbox}[name=refs,column=1,above=bottom]{Contributors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     \includegraphics[width=\textwidth]{tskit-contributors}
