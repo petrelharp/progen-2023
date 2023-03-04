@@ -7,7 +7,7 @@ probgen-2023-poster.pdf : refs.bib images/tskit_logo.pdf images/workflow.pdf ima
 clean: 
 	-rm *.aux *.log *.bbl *.blg
 
-%.pdf : %.tex %.bbl
+%.pdf : %.tex # %.bbl
 	while ( pdflatex -shell-escape $<;  grep -q "Rerun to get" $*.log ) do true ; done
 
 %.aux : %.tex
