@@ -126,7 +126,7 @@
  { \includegraphics[height=0.12\textheight]{tskit_logo}
  }
  % Title
-{\resizebox{0.8\textwidth}{!}{\Huge \tskit{}: \sc working with tree sequences}}
+{\resizebox{0.95\textwidth}{!}{\Huge \tskit{}: \sc population-scale genomics and phylogenetics}}
  % Authors
   {\sf %Sans Serif
     Ben Jeffery${}^\ddagger$,
@@ -188,7 +188,9 @@ CPU times: user 775 ms, sys: 533 ms, total: 1.31 s
 Wall time: 842 ms
 \end{verbatim}
 }
-\includegraphics[width=0.5\textwidth]{sc2_ts.png}
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{sc2_ts.png}
+\end{center}
 
 \paragraph{The integrated data model}
 links nodes, edges, sites and mutations,
@@ -328,7 +330,7 @@ Here's some \textbf{silly slogans}, care to suggest any more?
 
     \vspace{2em}
 
-    \includegraphics[width=0.8\textwidth]{workflow}
+    \includegraphics[width=0.85\textwidth]{workflow}
 \end{center}
 
 
@@ -378,6 +380,8 @@ SVG-based visualization allows flexible styling of local trees.
 
 \columnbreak
 \paragraph{Example:}
+SARS-CoV-2 samples affected by recombination, subset from a 1.2M
+sample Covid tree sequence
 \begin{minted}{python}
 simp_ts.draw_svg(
     size=(800, 400), canvas_size=(850, 405),
@@ -416,11 +420,10 @@ simp_ts.draw_svg(
 \end{itemize}
 
 \paragraph{Example:} newly-implemented tree balance statistics. A balanced
-(binary) tree is perfectly symmetric in some way: each node has an equally
-sized subtree descending from its left- and right- branches, where `size'
+(binary) tree is perfectly symmetric in some way: each node's
+subtrees are of equal size, where `size'
 is determined by some metric involving the tree's nodes and edges. \tskit{}
-now implements several different metrics to calculate how unbalanced each
-tree is:
+now implements several different metrics of balance:
 
 \begin{minted}{python}
 imb = pd.DataFrame({
@@ -451,24 +454,26 @@ imb.plot(figsize=(16, 4), alpha=0.7)
     features. Here's a shortlist of some recent additions:
 
 \paragraph{Reference sequences}
-By default, the sites in a tree sequence only define ancestral nucleotides at
-    polymorphism sites. Remaining positions can now be specified using the
+By default, the sites in a tree sequence only give ancestral state at
+    polymorphic sites. Remaining positions can now be specified using the
     \texttt{TreeSequence.reference\_sequence}, and individual sample alignments can
-    be obtained with the new \texttt{TreeSequence.alignments()} iterator.
+    be obtained with the \texttt{TreeSequence.alignments()} iterator.
 
 \paragraph{Structural operations}
 We've expanded the set of utility functions for large edits on tree sequences.
     For instance, the \texttt{TreeSequence.decapitate} method removes all parts of a
     tree sequence that are older than some user-specified time,
-    and \texttt{TreeSequence.union} allows joining together of separate tree sequences
-    to allow parallel simulation across different branches of a phylogenetic tree.
+    and \texttt{TreeSequence.union} joins together separate tree sequences,
+    allowing parallel simulation across different branches of a phylogenetic tree.
 
 \paragraph{Efficient array access}
 The relationships between nodes in each tree can now be extracted as \texttt{numpy}
-    arrays. When used in conjunction with \texttt{numba},
-    Python-based calculations on the trees can act as speedily as
-    machine-level code. Here is pure python computing total branch length
-    just as fast as the ``built-in'' method (implemented in C):
+    arrays. When used with \texttt{numba},
+    Python-based calculations on the trees can be as fast as
+    machine-level code. Here is numba $+$ python computing total branch length
+    (see example code)
+    just as fast as the ``built-in'' method (implemented in C),
+    and 10--100$\times$ faster than the un-numba'ed python code:
 
 \begin{multicols}{2}
 \begin{minted}{python}
@@ -498,7 +503,7 @@ def get_total_branch_length(tree):
 \begin{posterbox}[name=refs,column=1,span=2,above=bottom]{Contributors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\tskit is developed by an open and inclusive community.
+\tskit{} is developed by an open and inclusive community.
 Want to get involved?
 All skill levels welcome -- email us at \url{admin@tskit.dev}.
 
