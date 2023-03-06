@@ -20,7 +20,9 @@ clean:
 	convert -density 300 $< -flatten $@
 
 %.pdf : %.svg
-	inkscape $< --export-filename=$@
+	# inkscape $< --export-area-drawing --export-filename=$@
+	# chromium --headless --no-pdf-header-footer --print-to-pdf=$@ $<
+	./svg2pdf.sh $< $@
 
 %.pdf : %.eps
 	# inkscape $< --export-filename=$@

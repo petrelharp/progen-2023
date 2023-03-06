@@ -1,4 +1,4 @@
-\documentclass[landscape,a0paper,fontscale=0.4]{baposter}
+\documentclass[landscape,a0paper,fontscale=0.5]{baposter}
 % make fontscale bigger to get smaller fonts
 
 \tracingstats=2
@@ -165,11 +165,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{posterbox}[name=inout,column=0,span=1]{Integrated metadata}
+\begin{posterbox}[name=inout,column=0,span=1]{Metadata}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    \tskit now has integrated metadata.
-    For instance,
+    \tskit{} now has integrated metadata
+    for all objects (genomes, mutations, sites, etcetera).
+    For instance \emph{(spoiler alert)},
     the complete ARG for 1.26 million SARS-Cov-2 genomes: fits in 57MB!
     Loads in < 1s!
 
@@ -188,7 +189,12 @@ Wall time: 842 ms
 }
 \includegraphics[width=0.5\textwidth]{sc2_ts.png}
 
-\paragraph{Integrated data model} linking nodes, edges, sites and mutations and external metadata and debug information:
+\paragraph{The integrated data model}
+links nodes, edges, sites and mutations,
+and now allows annotation of all objects with arbitrary external metadata.
+For instance,
+here's the first five sites in the SARS-Cov-2 ARG,
+and all three mutations at the first site:
 
 \begin{multicols}{2}
 \begin{minted}{python}
@@ -202,6 +208,11 @@ ts.tables.mutations[ts.mutations_site == 0]
 \includegraphics[width=0.5\textwidth]{sc2_muts}
 \end{multicols}
 
+All the information \tskit{} knows about can be accessed
+as dictionaries.
+Here's one of the samples:
+
+\tiny
 \begin{minted}{python}
 dataclasses.asdict(ts.node(1026732))
 \end{minted}
@@ -235,20 +246,29 @@ dataclasses.asdict(ts.node(1026732))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{posterbox}[name=interop,column=0,row=0,span=1,below=inout]{Interfaces and interoperability}
+\begin{posterbox}[name=interop,column=0,row=0,span=2,below=inout]{Interfaces and interoperability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{multicols}{2}
+
+We aim to provide \emph{stable}, \emph{well-tested} and \emph{well-documented}
+software so others can reliably build with it --
+including a \emph{backwards compatibility} guarantee.
+\tskit{} is already being used in a number of inference and simulation packages.
+The core functionality is implemented via a C API,
+and the primary interface is via a Python library,
+but others are available:
+
 \begin{itemize} \compresslist
-    \item Well-tested API used by many software packages: SLiM, fwdpy11, msprime, tsinfer/tsdate, Relate, etc.
+    \item Well-tested API used by many software packages: SLiM, fwdpy11, msprime, tsinfer/tsdate, Relate, slendr, etc.
     \item Available in multiple programming languages:
         \includegraphics[width=2em]{C_Logo}
         \includegraphics[width=2em]{python-logo-master-v3-TM-flattened}
         \includegraphics[width=2em]{RustLogo}
         \includegraphics[width=2em]{R-logo}
-    \item Runs in-browser (no install required!) for quick demos / teaching (see screenshot)
+    \item Runs in-browser (no install required!) for quick demos / teaching (see screenshot).
     \item Can represent full Ancestral Recombination Graphs; includes ARG likelihood calculations.
-    \item Efficient processing of large genomic datasets (Covid ARG has ~1.3M samples, bigger ones coming)
-    \item Interoperable with other packages (VCF output for sequence data, newick/nexus output e.g. to Dendropy, numpy arrays e.g. to scikit-allel)
+    \item Interoperable with other packages (e.g., VCF output for sequence data, newick/nexus output to Dendropy, numpy arrays to scikit-allel)
 \end{itemize}
 
 % \begin{minted}{python}
@@ -262,7 +282,12 @@ dataclasses.asdict(ts.node(1026732))
 %         style=css, mutation_labels={})
 % \end{minted}
 
-    \includegraphics[width=0.5\textwidth]{JupyterLite}
+    \includegraphics[width=0.25\textwidth]{JupyterLite}
+
+    A running instance: try it in your browser!
+    \includegraphics[width=8em]{running-instance-qr}
+
+\end{multicols}
 
 \end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -271,17 +296,41 @@ dataclasses.asdict(ts.node(1026732))
 \begin{posterbox}[name=overview,column=1,row=0,span=2]{Overview}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    \begin{center}
-        \huge
-        ``\tskit{}: launching your genomes into the time dimension''
-    \end{center}
+\begin{multicols}{2}
 
-- very brief intro/description statement
-- what's on the website
-- emphasize that (a) it does stuff fast and quick, and (b) it gives us a time dimension
-    * tagline: "launching your genomes into the time dimension"?
-- how to contribute
-- bigger ecosystem: what else uses tskit?
+\tskit{} is the C and python library providing tools for working with \emph{succinct tree sequences}.
+We provide solid, stable, well-tested software for you to use and build on.
+Why might you want to use tree sequences?
+\begin{itemize} \compresslist
+    \item For large samples,
+        stores genotypes losslessly using (possibly estimated) underlying genealogical relationships
+        in orders of magnitude less space,
+    \item \ldots and allows fast processing and exploration: wait seconds, not hours.
+    \item Genealogical relationships -- ``the trees'' -- are often closer to
+        things we want to learn about
+    \item \ldots and explicitly include a \emph{time dimension}.
+    \item History of a process can be recorded in a simulation, not just the genotypic outcome,
+    \item \ldots and simulations can be much faster/more efficient.
+\end{itemize}
+
+In summary:
+by representing genomes using the genealogical process that generated the data,
+we get both a huge advantage storing and manipulating genomic data,
+as well as a more direct look at the processes that generated the data.
+
+Here's some \textbf{silly slogans}, care to suggest any more?
+\begin{itemize} \compresslist
+    \item ``\tskit: launching your genomes into the time dimension!''
+    \item ``\tskit: tree thinking, for popgen''
+    \item ``\tskit: stable software for genome-scale trees''
+    \item ``\tskit: all your insights, much faster!''
+\end{itemize}
+
+\end{multicols}
+
+    \begin{center} \Large
+        Documentation and examples: \url{https://tskit.dev/}
+    \end{center}
 
 \includegraphics[width=\textwidth]{workflow}
 
@@ -293,7 +342,7 @@ dataclasses.asdict(ts.node(1026732))
 \begin{posterbox}[name=viz,column=1,row=0,span=2,below=overview]{Visuzalization}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-SVG-based viz allows flexible styling of local trees.
+SVG-based visualization allows flexible styling of local trees.
 
 Comprehensive examples at \url{https://tskit.dev/tutorials/viz.html}
 
@@ -357,20 +406,23 @@ Comprehensive examples at \url{https://tskit.dev/tutorials/viz.html}
 \begin{posterbox}[name=stats,column=3,row=0,span=1]{Statistics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\tskit{} lets you perform efficient calculations of statistics along the genome, often many times quicker than other software! You may be interested in calculating...
+\tskit{} lets you perform efficient calculations of statistics along the genome, often many times quicker than other software! You may be interested in calculating:
 
 \begin{itemize} \compresslist
-    \item statistics derived from the allele frequency spectrum like nucleotide diversity, Tajima's D, f2...
-    \item IBD-based quantities
-    \item tree-based statistics like genealogical nearest neighbours and tree balance metrics...
+    \item the allele frequency spectrum or statistics derived from it,
+        like nucleotide diversity, Tajima's $D$, f4, \ldots
+    \item IBD-based quantities,
+    \item summaries of tree topology,
+        e.g., genealogical nearest neighbours and tree balance metrics,
+    \item cross-coalescence rates (coming soon!)
 \end{itemize}
 
-Let's look at \tskit{}'s new tree balance statistics as an example. A balanced
-    (binary) tree is perfectly symmetric in some way: each node has an equally
-    sized subtree descending from its left- and right- branches, where 'size'
-    is determined by some metric involving the tree's nodes and edges. \tskit
-    now contains several different metrics to calculate how unbalanced each
-    tree is:
+\paragraph{Example:} newly-implemented tree balance statistics. A balanced
+(binary) tree is perfectly symmetric in some way: each node has an equally
+sized subtree descending from its left- and right- branches, where `size'
+is determined by some metric involving the tree's nodes and edges. \tskit{}
+now implements several different metrics to calculate how unbalanced each
+tree is:
 
 \begin{minted}{python}
 imb = pd.DataFrame({
@@ -394,27 +446,33 @@ imb.plot(figsize=(16, 4), alpha=0.7)
 \begin{posterbox}[name=operations,column=3,below=stats,span=1]{Notable new features}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\tskit{}'s contributors are diverse and prolific! We are actively working on new features, bug fixes, and improvements to the usability of existing features. Here's a shortlist of some recent additions:
+    % \emph{Example notebook: \url{https://github.com/petrelharp/progen-2023/new-features.ipynb}}
+
+\tskit{}'s contributors are diverse and prolific! We are actively working on
+    new features, bug fixes, and improvements to the usability of existing
+    features. Here's a shortlist of some recent additions:
 
 \paragraph{Reference sequences}
-By default, the sites in a tree sequence only define the nucleotide types at
-    the genomic positions where polymorphism is observed. The nucleotides at
-    remaining positions can now be filled using the
-    `TreeSequence.reference\_sequence` , and individual sample alignments can
-    be obtained with the new `TreeSequence.alignments()` iterator.
+By default, the sites in a tree sequence only define ancestral nucleotides at
+    polymorphism sites. Remaining positions can now be specified using the
+    \texttt{TreeSequence.reference\_sequence}, and individual sample alignments can
+    be obtained with the new \texttt{TreeSequence.alignments()} iterator.
 
 \paragraph{Structural operations}
 We've expanded the set of utility functions for large edits on tree sequences.
-    For instance, the `TreeSequence.decapitate` method removes all parts of a
-    tree sequence that are older than some user-specified time.
+    For instance, the \texttt{TreeSequence.decapitate} method removes all parts of a
+    tree sequence that are older than some user-specified time,
+    and \texttt{TreeSequence.union} allows joining together of separate tree sequences
+    to allow parallel simulation across different branches of a phylogenetic tree.
 
-\paragraph{Efficient array access }
-The relationships between nodes in each tree can now be extracted as `numpy`
-    arrays. When used in conjunction with `numba`, it is possible to perform
-    Python-based calculations on the trees that run as speedily as
+\paragraph{Efficient array access}
+The relationships between nodes in each tree can now be extracted as \texttt{numpy}
+    arrays. When used in conjunction with \texttt{numba},
+    Python-based calculations on the trees that can as speedily as
     machine-level code. Consider these calculations of total branch length on
     trees of different sizes:
 
+\begin{multicols}{2}
 \begin{minted}{python}
 @numba.njit
 def _total_branch_length(preorder, parent, node_time):
@@ -428,7 +486,9 @@ def get_total_branch_length(tree):
      return _total_branch_length( tree.preorder(), tree.parent_array,
                 tree.tree_sequence.nodes_time)
 \end{minted}
+
 \includegraphics[width=0.5\textwidth]{numba_runtime}
+\end{multicols}
 
 \end{posterbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -436,10 +496,14 @@ def get_total_branch_length(tree):
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{posterbox}[name=refs,column=1,above=bottom]{Contributors}
+\begin{posterbox}[name=refs,column=2,above=bottom]{Contributors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    \includegraphics[width=\textwidth]{tskit-contributors}
+    \tskit is developed by an open and inclusive community.
+    Want to get involved?
+    All skill levels welcome -- email us at \url{admin@tskit.dev}.
+
+    \includegraphics[width=0.9\textwidth]{tskit-contributors}
 
   % % \scriptsize
   % \renewcommand{\section}[2]{\vskip 0.0em}
