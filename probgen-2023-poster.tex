@@ -1,4 +1,4 @@
-\documentclass[landscape,a0paper,fontscale=0.5]{baposter}
+\documentclass[landscape,a0paper,fontscale=0.4]{baposter}
 % make fontscale bigger to get smaller fonts
 
 \tracingstats=2
@@ -126,7 +126,7 @@
  { \includegraphics[height=0.12\textheight]{tskit_logo}
  }
  % Title
- {\Huge \tskit{}: \sc working with tree sequences}
+{\resizebox{0.8\textwidth}{!}{\Huge \tskit{}: \sc working with tree sequences}}
  % Authors
   {\sf %Sans Serif
     Ben Jeffery${}^\ddagger$,
@@ -169,10 +169,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     \tskit{} now has integrated metadata
-    for all objects (genomes, mutations, sites, etcetera).
+    for all objects (genomes, mutations, sites, etc).
     For instance \emph{(spoiler alert)},
     the complete ARG for 1.26 million SARS-Cov-2 genomes: fits in 57MB!
-    Loads in < 1s!
+    Loads in under 1 second!
 
 \begin{minted}{bash}
 ls -lh SARS-Cov-2-ARG.ts.tsz
@@ -328,11 +328,10 @@ Here's some \textbf{silly slogans}, care to suggest any more?
 
 \end{multicols}
 
-    \begin{center} \Large
-        Documentation and examples: \url{https://tskit.dev/}
-    \end{center}
-
-\includegraphics[width=\textwidth]{workflow}
+\begin{center} \Large
+    Documentation and examples: \url{https://tskit.dev/}
+    \includegraphics[width=0.8\textwidth]{workflow}
+\end{center}
 
 
 \end{posterbox}
@@ -468,7 +467,7 @@ We've expanded the set of utility functions for large edits on tree sequences.
 \paragraph{Efficient array access}
 The relationships between nodes in each tree can now be extracted as \texttt{numpy}
     arrays. When used in conjunction with \texttt{numba},
-    Python-based calculations on the trees that can as speedily as
+    Python-based calculations on the trees can act as speedily as
     machine-level code. Consider these calculations of total branch length on
     trees of different sizes:
 
