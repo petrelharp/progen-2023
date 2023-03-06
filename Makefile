@@ -2,7 +2,7 @@
 
 all: probgen-2023-poster.pdf
 
-probgen-2023-poster.pdf : refs.bib images/tskit_logo.pdf images/workflow.pdf images/Covid_recombination.pdf
+probgen-2023-poster.pdf : refs.bib images/tskit_logo.pdf images/workflow.pdf images/Covid_recombination.pdf images/viz_23_0.pdf
 
 clean: 
 	-rm *.aux *.log *.bbl *.blg
